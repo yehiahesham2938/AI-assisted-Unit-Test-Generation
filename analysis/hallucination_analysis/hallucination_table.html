@@ -1,0 +1,109 @@
+
+    <html>
+    <head>
+        <title>Hallucination Table</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #2c3e50; }
+            .table { 
+                width: 100%; 
+                border-collapse: collapse;
+                margin: 25px 0;
+                font-size: 0.9em;
+                min-width: 400px;
+                border-radius: 5px 5px 0 0;
+                overflow: hidden;
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            }
+            .table thead tr {
+                background-color: #3498db;
+                color: #ffffff;
+                text-align: left;
+                font-weight: bold;
+            }
+            .table th,
+            .table td {
+                padding: 12px 15px;
+            }
+            .table tbody tr {
+                border-bottom: 1px solid #dddddd;
+            }
+            .table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3;
+            }
+            .table tbody tr:last-of-type {
+                border-bottom: 2px solid #3498db;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Hallucination Table</h1>
+        <table class="dataframe table table-striped">
+  <thead>
+    <tr style="text-align: right;">
+      <th>import pandas as pd</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td># Load the CSV file</td>
+    </tr>
+    <tr>
+      <td>file_path = "hallucination_table.csv"</td>
+    </tr>
+    <tr>
+      <td>df = pd.read_csv(file_path)</td>
+    </tr>
+    <tr>
+      <td># Display basic info</td>
+    </tr>
+    <tr>
+      <td>print("=== Basic Info ===")</td>
+    </tr>
+    <tr>
+      <td>print(df.info())</td>
+    </tr>
+    <tr>
+      <td># Display first few rows</td>
+    </tr>
+    <tr>
+      <td>print("\n=== First 5 Rows ===")</td>
+    </tr>
+    <tr>
+      <td>print(df.head())</td>
+    </tr>
+    <tr>
+      <td># Summary statistics for numeric columns</td>
+    </tr>
+    <tr>
+      <td>print("\n=== Summary Statistics ===")</td>
+    </tr>
+    <tr>
+      <td>print(df.describe())</td>
+    </tr>
+    <tr>
+      <td># Check for missing values</td>
+    </tr>
+    <tr>
+      <td>print("\n=== Missing Values ===")</td>
+    </tr>
+    <tr>
+      <td>print(df.isnull().sum())</td>
+    </tr>
+    <tr>
+      <td># Optional: Get a summary of unique values in each column</td>
+    </tr>
+    <tr>
+      <td>print("\n=== Unique Values per Column ===")</td>
+    </tr>
+    <tr>
+      <td>for col in df.columns:</td>
+    </tr>
+    <tr>
+      <td>print(f"{col}: {df[col].nunique()} unique values")</td>
+    </tr>
+  </tbody>
+</table>
+    </body>
+    </html>
+    

@@ -1,0 +1,14 @@
+openai>=0.27.0          # optional if using OpenAI
+transformers>=4.30.0    # optional alternative to call HF models locally
+accelerate
+sentence-transformers>=2.2.2
+pytest>=7.0
+coverage
+antlr4-python3-runtime
+nltk
+numpy
+pandas
+scikit-learn
+matplotlib
+pyyaml
+tqdm

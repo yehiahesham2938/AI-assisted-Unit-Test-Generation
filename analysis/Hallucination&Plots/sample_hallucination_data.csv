@@ -1,0 +1,11 @@
+model,dataset,hallucination_type,severity,context_length,response_length,contains_factual_error,contains_irrelevant_info,contains_fabrication
+GPT-4,CNN/DailyMail,Intrinsic,Low,512,150,False,False,False
+GPT-4,XSum,Extrinsic,Medium,256,100,True,False,True
+GPT-3.5,CNN/DailyMail,Intrinsic,High,512,200,True,True,False
+GPT-3.5,XSum,Extrinsic,Low,256,120,False,True,False
+Llama-2,CNN/DailyMail,Intrinsic,Medium,512,180,True,False,True
+Llama-2,XSum,Extrinsic,High,256,90,False,True,True
+Claude,CNN/DailyMail,Intrinsic,Low,512,160,False,False,False
+Claude,XSum,Extrinsic,Medium,256,110,True,True,False
+Mistral,CNN/DailyMail,Intrinsic,High,512,170,True,False,True
+Mistral,XSum,Extrinsic,Low,256,130,False,True,False

@@ -1,0 +1,23 @@
+dataset:
+  functions_dir: "data/functions"
+  expected_tests_dir: "data/expected_tests"
+
+model:
+  provider: "hf"        # "openai" or "hf"
+  openai_model: "gpt-4o-mini"   # change as needed (or gpt-4o, gpt-4)
+  hf_model: "bigscience/bloomz-1b1"  # example HF fallback
+
+decoding:
+  temperature: 0.0
+  top_k: 50
+  top_p: 0.95
+  max_tokens: 512
+
+prompt:
+  few_shot: true
+  examples: 2
+
+logging:
+  jsonl_path: "logs/prompts_responses.jsonl"
+
+

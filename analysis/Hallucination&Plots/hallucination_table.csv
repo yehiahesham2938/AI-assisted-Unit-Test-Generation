@@ -1,0 +1,26 @@
+import pandas as pd
+
+# Load the CSV file
+file_path = "hallucination_table.csv"
+df = pd.read_csv(file_path)
+
+# Display basic info
+print("=== Basic Info ===")
+print(df.info())
+
+# Display first few rows
+print("\n=== First 5 Rows ===")
+print(df.head())
+
+# Summary statistics for numeric columns
+print("\n=== Summary Statistics ===")
+print(df.describe())
+
+# Check for missing values
+print("\n=== Missing Values ===")
+print(df.isnull().sum())
+
+# Optional: Get a summary of unique values in each column
+print("\n=== Unique Values per Column ===")
+for col in df.columns:
+    print(f"{col}: {df[col].nunique()} unique values")
