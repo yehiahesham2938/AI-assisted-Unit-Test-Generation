@@ -151,12 +151,3 @@ For questions or feedback, please open an issue or contact the maintainers.
 
 
 
-<div align="center">
-  <p>Made with ❤️ by the AI TestGen Team</p>
-  <p>🚀 Powered by AI and Open Source</p>
-</div>
-
-
-
-
-Do you want me to do that next?
