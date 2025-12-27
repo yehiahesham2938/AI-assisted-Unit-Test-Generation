@@ -2,6 +2,7 @@
 import os
 import json
 import time
+import re
 import argparse
 from pathlib import Path
 import yaml
@@ -138,6 +139,66 @@ def log_jsonl(entry, jsonl_path):
     with open(jsonl_path, "a", encoding="utf-8") as f:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
+
+def _mock_generate_tests_from_source(func_src, prompt, cfg):
+    """Lightweight fallback generator that creates simple pytest tests.
+
+    Used when cfg["model"]["provider"] == "mock" to avoid loading large models.
+    """
+    match = re.search(r"def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(", func_src)
+    func_name = match.group(1) if match else "func_under_test"
+    tests = (
+        "import pytest\n\n\n"
+        f"# Mock-generated tests for {func_name}\n\n"
+        f"def test_{func_name}_simple_case():\n"
+        "    # TODO: replace with project-specific assertions\n"
+        "    assert True\n"
+    )
+    raw = {"provider": "mock", "note": "mock generator used (no external model loaded)"}
+    return tests, raw
+
+def generate_tests_for_source(func_src, cfg):
+    """
+    Helper to generate tests for a single function/module source string.
+    Returns (generated_text, prompt, metadata_dict).
+    """
+    prompt = build_prompt(
+        func_src,
+        include_examples=cfg.get("prompt", {}).get("few_shot", False),
+        n_examples=cfg.get("prompt", {}).get("examples", 0),
+    )
+    start = time.time()
+    provider = cfg["model"]["provider"]
+    hf_available = bool(cfg["model"].get("hf_model"))
+    raw = None
+
+    if provider == "openai":
+        try:
+            gen_text, raw = call_openai_with_retries(prompt, cfg)
+        except RuntimeError as e:
+            if hf_available:
+                try:
+                    gen_text, raw = call_hf(prompt, cfg, None)
+                except Exception as hf_e:
+                    raise RuntimeError(f"HF fallback failed: {hf_e}") from hf_e
+            else:
+                raise
+    elif provider == "hf":
+        gen_text, raw = call_hf(prompt, cfg, None)
+    elif provider == "mock":
+        gen_text, raw = _mock_generate_tests_from_source(func_src, prompt, cfg)
+    else:
+        raise RuntimeError(f"Unknown provider: {provider}")
+
+    duration = time.time() - start
+    metadata = {
+        "provider": provider,
+        "model": cfg["model"].get("openai_model") or cfg["model"].get("hf_model"),
+        "duration_s": duration,
+        "raw_preview": str(raw)[:2000],
+    }
+    return gen_text, prompt, metadata
+
 def main(cfg_path="config.yaml"):
     cfg = load_config(cfg_path)
     data_dir = Path(cfg["dataset"]["functions_dir"])
@@ -149,12 +210,13 @@ def main(cfg_path="config.yaml"):
     files = list(data_dir.glob("*.py"))
     hf_pipe = None
     hf_available = bool(cfg["model"].get("hf_model"))
+    provider = cfg["model"]["provider"]
 
-    if cfg["model"]["provider"] == "hf":
+    if provider == "hf":
         from transformers import pipeline as _pipeline
         hf_pipe = _pipeline("text-generation", model=cfg["model"]["hf_model"])
 
-    if cfg["model"]["provider"] == "openai":
+    if provider == "openai":
         try:
             init_openai_client(cfg)
         except Exception as e:
@@ -167,7 +229,7 @@ def main(cfg_path="config.yaml"):
         prompt = build_prompt(func_src, include_examples=cfg["prompt"].get("few_shot", False),
                               n_examples=cfg["prompt"].get("examples", 0))
         start = time.time()
-        if cfg["model"]["provider"] == "openai":
+        if provider == "openai":
             try:
                 gen_text, raw = call_openai_with_retries(prompt, cfg)
             except RuntimeError as e:
@@ -186,8 +248,12 @@ def main(cfg_path="config.yaml"):
                 else:
                     print("No HF model configured to fall back to. Check `config.yaml` to set `model.hf_model` or resolve OpenAI billing.")
                     return
-        else:
+        elif provider == "hf":
             gen_text, raw = call_hf(prompt, cfg, hf_pipe)
+        elif provider == "mock":
+            gen_text, raw = _mock_generate_tests_from_source(func_src, prompt, cfg)
+        else:
+            raise RuntimeError(f"Unknown provider: {provider}")
 
         duration = time.time() - start
         out_file = out_dir / (f.stem + "_test.py")

@@ -4,8 +4,13 @@ import seaborn as sns
 import os
 from datetime import datetime
 
-# Set style for visualizations
-plt.style.use('seaborn')
+# Set style for visualizations (use a robust default)
+try:
+    # Prefer a seaborn-like style if available, otherwise fall back to default
+    plt.style.use('seaborn-v0_8')
+except OSError:
+    plt.style.use('default')
+
 plt.rcParams['figure.dpi'] = 100
 plt.rcParams['savefig.dpi'] = 300
 plt.rcParams['font.family'] = 'sans-serif'
@@ -17,7 +22,8 @@ plt.rcParams['ytick.color'] = '#333333'
 
 def load_data():
     """Load the hallucination data."""
-    file_path = os.path.join("Hallucination&Plots", "hallucination_data.csv")
+    base_dir = os.path.dirname(os.path.dirname(__file__))
+    file_path = os.path.join(base_dir, "Hallucination&Plots", "hallucination_data.csv")
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"Hallucination table not found at: {file_path}")
     
@@ -39,6 +45,7 @@ def generate_report(df):
     os.makedirs(output_dir, exist_ok=True)
     
     # Start HTML report with simplified styling
+    date_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -83,7 +90,7 @@ def generate_report(df):
         <div class="container">
             <h1>Hallucination Metrics Analysis</h1>
             <p>Report generated on: {date}</p>
-    """.format(date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    """.replace("{date}", date_str)
     
     # 1. Dataset Overview
     html_content += """
@@ -174,7 +181,10 @@ def generate_report(df):
     # 6. Visualizations
     if not df.select_dtypes(include=['number']).empty:
         # Set a clean style for visualizations
-        plt.style.use('seaborn')
+        try:
+            plt.style.use('seaborn-v0_8')
+        except OSError:
+            plt.style.use('default')
         
         # Numeric columns distribution
         num_cols = df.select_dtypes(include=['number']).columns
@@ -187,10 +197,11 @@ def generate_report(df):
                 plt.tight_layout()
                 plt.savefig(plot_path, bbox_inches='tight')
                 plt.close()
+                plot_src = os.path.basename(plot_path)
                 html_content += f"""
                 <div class="card">
                     <h3>Distribution of {col}</h3>
-                    <img src="{plot_path}" alt="Distribution of {col}" style="max-width: 100%;">
+                    <img src="{plot_src}" alt="Distribution of {col}" style="max-width: 100%;">
                 </div>
                 """
             except Exception as e:
@@ -207,10 +218,11 @@ def generate_report(df):
             plt.savefig(heatmap_path, bbox_inches='tight')
             plt.close()
             
+            heatmap_src = os.path.basename(heatmap_path)
             html_content += f"""
             <div class="card">
                 <h3>Correlation Heatmap</h3>
-                <img src="{heatmap_path}" alt="Correlation Heatmap" style="max-width: 100%;">
+                <img src="{heatmap_src}" alt="Correlation Heatmap" style="max-width: 100%;">
             </div>
             """
         except Exception as e:
@@ -227,10 +239,11 @@ def generate_report(df):
                 plt.savefig(type_path, bbox_inches='tight')
                 plt.close()
                 
+                type_src = os.path.basename(type_path)
                 html_content += f"""
                 <div class="card">
                     <h3>Hallucination Type Distribution</h3>
-                    <img src="{type_path}" alt="Hallucination Type Distribution" style="max-width: 100%;">
+                    <img src="{type_src}" alt="Hallucination Type Distribution" style="max-width: 100%;">
                 </div>
                 """
             except Exception as e:

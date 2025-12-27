@@ -1,0 +1,543 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Hallucination Metrics Analysis</title>
+        <style>
+            body { 
+                font-family: Arial, Helvetica, sans-serif; 
+                line-height: 1.6; 
+                margin: 20px;
+                color: #333;
+            }
+            h1, h2, h3 { color: #2c3e50; }
+            .container { max-width: 1200px; margin: 0 auto; }
+            .card { 
+                background: #fff; 
+                border-radius: 5px; 
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+                padding: 20px; 
+                margin-bottom: 20px;
+            }
+            table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin: 15px 0;
+            }
+            th, td { 
+                padding: 10px; 
+                text-align: left; 
+                border-bottom: 1px solid #ddd;
+            }
+            th { 
+                background-color: #f4f4f4; 
+                font-weight: bold;
+            }
+            .warning { color: #e74c3c; font-weight: bold; }
+            .success { color: #27ae60; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Hallucination Metrics Analysis</h1>
+            <p>Report generated on: 2025-12-26 19:50:05</p>
+    
+    <div class="card">
+        <h2>1. Dataset Overview</h2>
+        <p>Total Rows: 20</p>
+        <p>Total Columns: 15</p>
+        <p>Columns: <code>model</code>, <code>dataset</code>, <code>bleu_score</code>, <code>rouge1</code>, <code>rouge2</code>, <code>rougeL</code>, <code>accuracy</code>, <code>hallucination_rate</code>, <code>hallucination_type</code>, <code>severity</code>, <code>context_length</code>, <code>response_length</code>, <code>contains_factual_error</code>, <code>contains_irrelevant_info</code>, <code>contains_fabrication</code></p>
+    </div>
+    
+    <div class="card">
+        <h2>2. Data Types</h2>
+        <table>
+            <tr><th>Column</th><th>Data Type</th><th>Non-Null Count</th></tr>
+    
+        <tr>
+            <td><code>model</code></td>
+            <td>object</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>dataset</code></td>
+            <td>object</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>bleu_score</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge1</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge2</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>rougeL</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>accuracy</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_rate</code></td>
+            <td>float64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_type</code></td>
+            <td>object</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>severity</code></td>
+            <td>object</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>context_length</code></td>
+            <td>int64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>response_length</code></td>
+            <td>int64</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_factual_error</code></td>
+            <td>bool</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_irrelevant_info</code></td>
+            <td>bool</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_fabrication</code></td>
+            <td>bool</td>
+            <td>20 (100.0%)</td>
+        </tr>
+        </table></div>
+    <div class="card">
+        <h2>3. Basic Statistics</h2>
+        <h3>Numeric Columns</h3>
+        <table class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>bleu_score</th>
+      <th>rouge1</th>
+      <th>rouge2</th>
+      <th>rougeL</th>
+      <th>accuracy</th>
+      <th>hallucination_rate</th>
+      <th>context_length</th>
+      <th>response_length</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>20.000000</td>
+      <td>20.000000</td>
+      <td>20.000000</td>
+      <td>20.0000</td>
+      <td>20.000000</td>
+      <td>20.000000</td>
+      <td>20.000000</td>
+      <td>20.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.392000</td>
+      <td>0.462000</td>
+      <td>0.336500</td>
+      <td>0.4310</td>
+      <td>0.803000</td>
+      <td>0.178000</td>
+      <td>384.000000</td>
+      <td>141.500000</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.032541</td>
+      <td>0.032541</td>
+      <td>0.026213</td>
+      <td>0.0249</td>
+      <td>0.022965</td>
+      <td>0.032541</td>
+      <td>131.325229</td>
+      <td>35.876249</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.340000</td>
+      <td>0.410000</td>
+      <td>0.290000</td>
+      <td>0.3900</td>
+      <td>0.770000</td>
+      <td>0.120000</td>
+      <td>256.000000</td>
+      <td>85.000000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.367500</td>
+      <td>0.437500</td>
+      <td>0.317500</td>
+      <td>0.4100</td>
+      <td>0.787500</td>
+      <td>0.150000</td>
+      <td>256.000000</td>
+      <td>113.750000</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.390000</td>
+      <td>0.460000</td>
+      <td>0.340000</td>
+      <td>0.4300</td>
+      <td>0.800000</td>
+      <td>0.180000</td>
+      <td>384.000000</td>
+      <td>142.500000</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.420000</td>
+      <td>0.490000</td>
+      <td>0.360000</td>
+      <td>0.4500</td>
+      <td>0.820000</td>
+      <td>0.202500</td>
+      <td>512.000000</td>
+      <td>171.250000</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.450000</td>
+      <td>0.520000</td>
+      <td>0.380000</td>
+      <td>0.4800</td>
+      <td>0.850000</td>
+      <td>0.230000</td>
+      <td>512.000000</td>
+      <td>200.000000</td>
+    </tr>
+  </tbody>
+</table>
+        <h3>Categorical Columns</h3>
+        <table class="dataframe dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>model</th>
+      <th>dataset</th>
+      <th>hallucination_type</th>
+      <th>severity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>20</td>
+      <td>20</td>
+      <td>20</td>
+      <td>20</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>5</td>
+      <td>2</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>GPT-4</td>
+      <td>CNN/DailyMail</td>
+      <td>Extrinsic</td>
+      <td>Low</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>4</td>
+      <td>10</td>
+      <td>10</td>
+      <td>7</td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    
+    <div class="card">
+        <h2>4. Data Quality Check</h2>
+        <h3>Missing Values</h3>
+        <table>
+            <tr><th>Column</th><th>Missing Values</th><th>% Missing</th></tr>
+    
+        <tr>
+            <td><code>model</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>dataset</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>bleu_score</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge1</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge2</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rougeL</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>accuracy</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_rate</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_type</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>severity</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>context_length</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>response_length</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_factual_error</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_irrelevant_info</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_fabrication</code></td>
+            <td class="success">0</td>
+            <td class="success">0.0%</td>
+        </tr>
+        </table>
+        <h3>Unique Values</h3>
+        <table>
+            <tr><th>Column</th><th>Unique Values</th><th>% Unique</th></tr>
+    
+        <tr>
+            <td><code>model</code></td>
+            <td>5</td>
+            <td>25.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>dataset</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>bleu_score</code></td>
+            <td>12</td>
+            <td>60.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge1</code></td>
+            <td>12</td>
+            <td>60.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rouge2</code></td>
+            <td>10</td>
+            <td>50.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>rougeL</code></td>
+            <td>10</td>
+            <td>50.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>accuracy</code></td>
+            <td>9</td>
+            <td>45.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_rate</code></td>
+            <td>12</td>
+            <td>60.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>hallucination_type</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>severity</code></td>
+            <td>3</td>
+            <td>15.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>context_length</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>response_length</code></td>
+            <td>19</td>
+            <td>95.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_factual_error</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_irrelevant_info</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        
+        <tr>
+            <td><code>contains_fabrication</code></td>
+            <td>2</td>
+            <td>10.0%</td>
+        </tr>
+        </table></div>
+                <div class="card">
+                    <h3>Distribution of bleu_score</h3>
+                    <img src="dist_bleu_score.png" alt="Distribution of bleu_score" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of rouge1</h3>
+                    <img src="dist_rouge1.png" alt="Distribution of rouge1" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of rouge2</h3>
+                    <img src="dist_rouge2.png" alt="Distribution of rouge2" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of rougeL</h3>
+                    <img src="dist_rougeL.png" alt="Distribution of rougeL" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of accuracy</h3>
+                    <img src="dist_accuracy.png" alt="Distribution of accuracy" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of hallucination_rate</h3>
+                    <img src="dist_hallucination_rate.png" alt="Distribution of hallucination_rate" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of context_length</h3>
+                    <img src="dist_context_length.png" alt="Distribution of context_length" style="max-width: 100%;">
+                </div>
+                
+                <div class="card">
+                    <h3>Distribution of response_length</h3>
+                    <img src="dist_response_length.png" alt="Distribution of response_length" style="max-width: 100%;">
+                </div>
+                
+            <div class="card">
+                <h3>Correlation Heatmap</h3>
+                <img src="correlation_heatmap.png" alt="Correlation Heatmap" style="max-width: 100%;">
+            </div>
+            
+                <div class="card">
+                    <h3>Hallucination Type Distribution</h3>
+                    <img src="hallucination_types.png" alt="Hallucination Type Distribution" style="max-width: 100%;">
+                </div>
+                
+        </div>
+    </body>
+    </html>
+    

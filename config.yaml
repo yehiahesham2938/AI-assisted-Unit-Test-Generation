@@ -3,7 +3,7 @@ dataset:
   expected_tests_dir: "data/expected_tests"
 
 model:
-  provider: "hf"        # "openai" or "hf"
+  provider: "mock"        # "openai" or "hf"
   openai_model: "gpt-4o-mini"   # change as needed (or gpt-4o, gpt-4)
   hf_model: "bigscience/bloomz-1b1"  # example HF fallback
 
